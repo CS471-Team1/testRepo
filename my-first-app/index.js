@@ -79,15 +79,13 @@ module.exports = (app) => {
          
      }
 
-    //test if body is empty
-     if(issueBody === ""){
-      const returnComment = context.issue({
-        body: "Please describe the issue so it can be tagged."
-      });
-      return context.octokit.issues.createComment(returnComment);
-    }
-     
-
+ //test if body is empty (meaningless commit)
+ if(issueBody === ""){
+  const returnComment = context.issue({
+    body: "Please describe the issue so it can be tagged."
+  });
+  return context.octokit.issues.createComment(returnComment);
+}
     //boolean for whether an issue is tagged or not
     var isTagged;
     
@@ -106,14 +104,30 @@ module.exports = (app) => {
       console.log('not tagged');
     }
     
-    //label you wish to add to an untagged issue
-    const labelToAdd = context.issue({
+    //labels you wish to add to an untagged issue
+    const bugLabel = context.issue({
       labels: ['bug']
     });
+    const enhancementLabel = context.issue({
+      labels: ['enhancement']
+    });
+    const defaultLabel = context.issue({
+      labels: ['invalid']
+    });
+
+
 
     //adds the label to the issue if that issue has no labels
     if(!isTagged){
-      return context.octokit.issues.addLabels(labelToAdd);
+      if(bugKeywordCount>featureKeywordCount){
+        return context.octokit.issues.addLabels(bugLabel);
+      }
+      else if(featureKeywordCount>bugKeywordCount){
+        return context.octokit.issues.addLabels(enhancementLabel);
+      }
+      else{
+      return context.octokit.issues.addLabels(defaultLabel);
+      }
     }
   });
   

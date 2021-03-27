@@ -80,7 +80,7 @@ module.exports = (app) => {
      }
 
     //test if body is empty
-     if(issueBody === null){
+     if(issueBody === "null"){
       const returnComment = context.issue({
         body: "Please describe the issue so it can be tagged."
       });

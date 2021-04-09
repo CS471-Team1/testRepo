@@ -141,16 +141,11 @@ module.exports = (app) => {
       console.log('not tagged');
     }
     
-<<<<<<< HEAD
     //labels you wish to add to an untagged issue
     /**
      * LABELS ARE ONLY FOR DEFAULT GITHUB REPOSITORIES
      */
     const bugLabel = context.issue({
-=======
-    //label you wish to add to an untagged issue
-    const labelToAdd = context.issue({
->>>>>>> parent of bfef290 (label test)
       labels: ['bug']
     });
 

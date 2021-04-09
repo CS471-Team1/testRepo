@@ -80,13 +80,7 @@ module.exports = (app) => {
          
      }
 
-    //test if body is empty
-     if(issueBody === ""){
-      const returnComment = context.issue({
-        body: "Please describe the issue so it can be tagged."
-      });
-      return context.octokit.issues.createComment(returnComment);
-    }
+    
      
 
     //boolean for whether an issue is tagged or not
@@ -117,6 +111,15 @@ module.exports = (app) => {
     const defaultLabel = context.issue({
       labels: ['invalid']
     });
+
+//test if body is empty
+if(issueBody === ""){
+  const returnComment = context.issue({
+    body: "Please describe the issue so it can be tagged."
+  });
+  context.octokit.issues.addLabels(defaultLabel);
+  return context.octokit.issues.createComment(returnComment);
+}
 
     //adds the label to the issue if that issue has no labels
     if(!isTagged){

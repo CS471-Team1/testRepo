@@ -1,3 +1,4 @@
+
 const { Octokit } = require("@octokit/core");
 const fs = require('fs');
 const readline = require('readline');
@@ -110,10 +111,24 @@ module.exports = (app) => {
     const bugLabel = context.issue({
       labels: ['bug']
     });
+    const enhancementLabel = context.issue({
+      labels: ['enhancement']
+    });
+    const defaultLabel = context.issue({
+      labels: ['invalid']
+    });
 
     //adds the label to the issue if that issue has no labels
     if(!isTagged){
-      return context.octokit.issues.addLabels(labelToAdd);
+      if(bugKeywordCount>featureKeywordCount){
+        return context.octokit.issues.addLabels(bugLabel);
+      }
+      else if(featureKeywordCount>bugKeywordCount){
+        return context.octokit.issues.addLabels(enhancementLabel);
+      }
+      else{
+      return context.octokit.issues.addLabels(defaultLabel);
+      }
     }
   });
   

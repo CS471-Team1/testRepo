@@ -117,7 +117,7 @@ if(issueBody === ""){
   const returnComment = context.issue({
     body: "Please describe the issue so it can be tagged."
   });
-  context.octokit.issues.removeAllLabels(context.issue.labels);
+  context.octokit.issues.removeAllLabels(bugLabel,enhancementLabel);
   context.octokit.issues.addLabels(defaultLabel);
   return context.octokit.issues.createComment(returnComment);
 }
